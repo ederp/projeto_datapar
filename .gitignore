@@ -22,3 +22,22 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Arquivos e diretórios relacionados ao Eclipse
+.classpath
+.project
+.settings/
+
+# Arquivos relacionados ao Visual Studio
+.vscode/
+*.suo
+*.user
+*.suo
+*.user
+*.sln.docstates
+
+# Arquivos e diretórios relacionados ao Angular
+node_modules/
+/dist/
+*.log
+
