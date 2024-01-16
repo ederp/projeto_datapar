@@ -1,0 +1,23 @@
+<div class="lista-container">
+  <h2>Lista de Avaliações</h2>
+
+  <ul *ngIf="listaAvaliacoes.length > 0; else semAvaliacoes">
+    <li *ngFor="let avaliacao of listaAvaliacoes">
+      <strong>Email:</strong> {{ avaliacao.email }}<br>
+      <strong>Avaliação:</strong> {{ avaliacao.pontuacao }}<br>
+      <strong>Observações:</strong> {{ avaliacao.observacoes }}<br>
+
+      <!-- Mostrar campos adicionais se existirem -->
+      <div *ngIf="avaliacao.contato || avaliacao.horario">
+        <strong>Contato:</strong> {{ avaliacao.contato }}<br>
+        <strong>Horário de Contato:</strong> {{ avaliacao.horario }}
+      </div>
+
+      <hr>
+    </li>
+  </ul>
+
+  <ng-template #semAvaliacoes>
+    <p>Nenhuma avaliação cadastrada ainda.</p>
+  </ng-template>
+</div>

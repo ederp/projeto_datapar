@@ -1,0 +1,36 @@
+<h2>Formulário de pesquisa de satisfação</h2>
+<form #formulario="ngForm" (ngSubmit)="registrarAvaliacao(formulario)">
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" [(ngModel)]="avaliacao.email" required>
+  </div>
+
+  <div>
+    <label for="avaliacao">Avaliação:</label>
+    <select id="avaliacao" name="avaliacao" [(ngModel)]="avaliacao.pontuacao" required>
+      <option disabled selected value=" "> -- Selecione uma nota de avaliação -- </option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="observacoes">Observações:</label>
+    <textarea id="observacoes" name="observacoes" [(ngModel)]="avaliacao.observacoes"></textarea>
+  </div>
+
+  <div *ngIf="avaliacao.pontuacao == 1 || avaliacao.pontuacao == 2">
+    <label for="contato">Contato:</label>
+    <input type="tel" id="contato" name="contato" [(ngModel)]="avaliacao.contato">
+
+    <label for="horario">Horário de Contato:</label>
+    <input type="text" id="horario" name="horario" [(ngModel)]="avaliacao.horario">
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="!formulario.form.valid">Enviar </button>
+  </div>
+</form>
