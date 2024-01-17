@@ -1,3 +1,7 @@
+h2 {
+  text-align: center;
+}
+
 .lista-container {
   max-width: 600px;
   margin: 20px auto;
@@ -18,5 +22,3 @@ li {
 strong {
   font-weight: bold;
 }
-
-/* Adicione mais estilos conforme necessário */
