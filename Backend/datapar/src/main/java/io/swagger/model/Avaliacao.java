@@ -48,11 +48,11 @@ public class Avaliacao {
 	@JsonProperty("horario_contato")
 	private String horarioContato;
 
-	public Avaliacao email(String email) {
-		this.email = email;
-		return this;
+	public Avaliacao() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Avaliacao(Integer id, String email, Integer pontuacao, String observacoes, String numeroCelular,
 			String horarioContato) {
 		super();
@@ -64,6 +64,30 @@ public class Avaliacao {
 		this.horarioContato = horarioContato;
 	}
 	
+	public Avaliacao(String email, Integer pontuacao, String observacoes) {
+		super();
+		this.email = email;
+		this.pontuacao = pontuacao;
+		this.observacoes = observacoes;
+	}
+	
+	public Avaliacao(String email, Integer pontuacao, String observacoes, String numeroCelular) {
+		super();
+		this.email = email;
+		this.pontuacao = pontuacao;
+		this.observacoes = observacoes;
+		this.numeroCelular = numeroCelular;
+	}
+	
+	public Avaliacao(String email, Integer pontuacao, String observacoes, String numeroCelular, String horarioContato) {
+		super();
+		this.email = email;
+		this.pontuacao = pontuacao;
+		this.observacoes = observacoes;
+		this.numeroCelular = numeroCelular;
+		this.horarioContato = horarioContato;
+	}
+
 	public Integer getId() {
 		return id;
 	}

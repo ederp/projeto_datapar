@@ -53,7 +53,7 @@ public interface AvaliacoesApi {
     @RequestMapping(value = "/avaliacoes",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
+    ResponseEntity<String> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
 );
 
 }

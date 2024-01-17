@@ -1,6 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Avaliacao;
+import io.swagger.service.AvaliacaoService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-01-17T03:00:28.791899576Z[GMT]")
 @RestController
@@ -41,31 +44,34 @@ public class AvaliacoesApiController implements AvaliacoesApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    private final AvaliacaoService avaliacaoService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public AvaliacoesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public AvaliacoesApiController(ObjectMapper objectMapper, HttpServletRequest request, AvaliacaoService avaliacaoService) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.avaliacaoService = avaliacaoService;
     }
 
     public ResponseEntity<List<Avaliacao>> avaliacoesListaGet() {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<Avaliacao>>(objectMapper.readValue("[ {\n  \"pontuacao\" : 1,\n  \"observacoes\" : \"observacoes\",\n  \"numero_celular\" : \"numero_celular\",\n  \"horario_contato\" : \"horario_contato\",\n  \"email\" : \"\"\n}, {\n  \"pontuacao\" : 1,\n  \"observacoes\" : \"observacoes\",\n  \"numero_celular\" : \"numero_celular\",\n  \"horario_contato\" : \"horario_contato\",\n  \"email\" : \"\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Avaliacao>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+    	List<Avaliacao> avaliacoes = avaliacaoService.findAll();
 
-        return new ResponseEntity<List<Avaliacao>>(HttpStatus.NOT_IMPLEMENTED);
+        if (avaliacoes.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(avaliacoes, HttpStatus.OK);
+        }
     }
 
-    public ResponseEntity<Void> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
+
+    public ResponseEntity<String> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
 ) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    	Optional<Avaliacao> criaAvaliacao = Optional.ofNullable(avaliacaoService.create(body));
+    	if (!criaAvaliacao.isEmpty()) {
+    		return ResponseEntity.status(HttpStatus.CREATED).body("Criado com sucesso");
+    	}
+    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("E-mail já existente ou algum outro erro no formulário");
     }
 
 }
