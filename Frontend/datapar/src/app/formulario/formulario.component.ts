@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { NgForm, FormsModule } from '@angular/forms';
+import { Component, Injectable } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { AvaliacaoService } from '../avaliacao.service';
 import { Avaliacao } from '../models/avaliacao.model';
 
 @Component({
@@ -20,9 +21,25 @@ export class FormularioComponent {
     horario:'',
   };
 
+  emailValido = true;
+
+  constructor(private avaliacaoService: AvaliacaoService) { }
+
+  validarEmail() {
+    this.emailValido = !!this.avaliacao.email && this.avaliacao.email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/) !== null;
+  }
+
   registrarAvaliacao(formulario: NgForm) {
-    console.log('Avaliação registrada:', this.avaliacao);
-    formulario.resetForm();
+    this.avaliacaoService.registrarAvaliacao(this.avaliacao).subscribe(
+      (response) => {
+        console.log('Avaliação registrada com sucesso:', response);
+        formulario.resetForm();
+      },
+      (error) => {
+        console.error('Erro ao registrar avaliação:', error);
+        // Lógica para lidar com o erro, se necessário
+      }
+    );
   }
 }
 

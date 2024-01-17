@@ -65,13 +65,23 @@ public class AvaliacoesApiController implements AvaliacoesApi {
     }
 
 
-    public ResponseEntity<String> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
+    public ResponseEntity<Avaliacao> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
 ) {
     	Optional<Avaliacao> criaAvaliacao = Optional.ofNullable(avaliacaoService.create(body));
     	if (!criaAvaliacao.isEmpty()) {
-    		return ResponseEntity.status(HttpStatus.CREATED).body("Criado com sucesso");
+    		return ResponseEntity.status(HttpStatus.CREATED).body(criaAvaliacao.get());
     	}
-    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("E-mail já existente ou algum outro erro no formulário");
+    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+
+	@Override
+	public ResponseEntity<?> avaliacoesIdDelete(Integer id) {
+		// TODO Auto-generated method stub
+		String mensagem = avaliacaoService.deleteById(id);
+		if (mensagem.equalsIgnoreCase("Avaliação excluída com sucesso")) {
+			return ResponseEntity.status(HttpStatus.OK).body(mensagem);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
+	}
 
 }

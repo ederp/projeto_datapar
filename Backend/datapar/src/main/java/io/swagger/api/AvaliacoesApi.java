@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -39,22 +42,29 @@ public interface AvaliacoesApi {
     @Operation(summary = "Lista todas as avaliações cadastradas", description = "", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Lista de avaliações", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Avaliacao.class)))) })
-    @RequestMapping(value = "/avaliacoes/lista",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+    @GetMapping(value = "/avaliacoes/lista",
+        produces = { "application/json" })
     ResponseEntity<List<Avaliacao>> avaliacoesListaGet();
 
 
     @Operation(summary = "Registrar avaliação", description = "", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "201", description = "Cadastro realizado com sucesso"),
+        @ApiResponse(responseCode = "201"),
         
-        @ApiResponse(responseCode = "400", description = "Erros no formulário, verifique os detalhes na resposta") })
-    @RequestMapping(value = "/avaliacoes",
-        consumes = { "application/json" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<String> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
+        @ApiResponse(responseCode = "400") })
+    @PostMapping(value = "/avaliacoes",
+        consumes = { "application/json" })
+    ResponseEntity<Avaliacao> avaliacoesPost(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Avaliacao body
 );
+    
+    @Operation(summary = "Exclui uma avaliação por ID", description = "", security = {
+            @SecurityRequirement(name = "jwt")    }, tags={  })
+        @ApiResponses(value = { 
+            @ApiResponse(responseCode = "204", description = "Avaliação excluída com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Avaliação não encontrada") })
+        @DeleteMapping(value = "/avaliacoes/{id}")
+    ResponseEntity<?> avaliacoesIdDelete(@Parameter(in = ParameterIn.PATH, description = "ID do produto", required=true, schema=@Schema()) @PathVariable("id") Integer id
+    		);
 
 }
 

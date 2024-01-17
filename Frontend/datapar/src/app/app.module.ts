@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app.routes';
@@ -19,12 +18,12 @@ import { ListaComponent } from './lista/lista.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
     HttpClientModule,
+    RouterModule,
+    CommonModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AvaliacaoService {
-  private apiUrl = 'http://sua-api.com/api/avaliacoes';
+  private apiUrl = 'http://localhost:8080/avaliacoes';
 
   constructor(private http: HttpClient) { }
 

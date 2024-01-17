@@ -32,4 +32,18 @@ public class AvaliacaoService {
 	public List<Avaliacao> findAll() {
 		return avaliacaoRepository.findAll();
 	}
+	
+	private Optional<Avaliacao> getById(Integer id) {
+		return avaliacaoRepository.findById(id);
+	}
+	
+	public String deleteById(Integer id) {
+		Optional<Avaliacao> optAvaliacao = this.getById(id);
+		if(! optAvaliacao.isEmpty()) {
+			Avaliacao avaliacao = optAvaliacao.get();
+			avaliacaoRepository.delete(avaliacao);
+			return "Avaliação excluída com sucesso";
+		}
+		return "Avaliação não encontrada";
+	}
 }

@@ -2,7 +2,16 @@
 <form #formulario="ngForm" (ngSubmit)="registrarAvaliacao(formulario)">
   <div>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" [(ngModel)]="avaliacao.email" required>
+    <input type="email"
+           id="email"
+           name="email"
+           #email="ngModel"
+           [(ngModel)]="avaliacao.email"
+           (ngModelChange)="validarEmail()"
+           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
+           required>
+
+    <div *ngIf="!emailValido">Formato de email inválido.</div>
   </div>
 
   <div>
@@ -31,6 +40,6 @@
   </div>
 
   <div>
-    <button type="submit" [disabled]="!formulario.form.valid">Enviar </button>
+    <button type="submit" [disabled]="!formulario.form.valid || !emailValido">Enviar</button>
   </div>
 </form>
