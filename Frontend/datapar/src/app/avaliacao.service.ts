@@ -11,7 +11,7 @@ export class AvaliacaoService {
   constructor(private http: HttpClient) { }
 
   registrarAvaliacao(avaliacao: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, avaliacao);
+    return this.http.post(`${this.apiUrl}`, avaliacao, { observe: 'response' });
   }
 
   obterListaAvaliacoes(): Observable<any> {
